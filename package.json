@@ -1,0 +1,29 @@
+{
+  "name": "serial-requests",
+  "version": "0.0.1",
+  "description": "A wrapper around serial-port for managing a queue of requests on an identified device",
+  "main": "src/SerialRequests.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cheminfo/serial-requests.git"
+  },
+  "keywords": [
+    "serial",
+    "port",
+    "device",
+    "queue"
+  ],
+  "author": "Daniel Kostro <kostro.d@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cheminfo/serial-requests/issues"
+  },
+  "homepage": "https://github.com/cheminfo/serial-requests#readme",
+  "dependencies": {
+    "debug": "^2.3.3",
+    "serialport": "^4.0.6"
+  }
+}
