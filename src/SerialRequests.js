@@ -88,19 +88,18 @@ class SerialRequests extends EventEmitter {
     }
 
     addRequest(cmd, options) {
-        var that = this;
         options = options || {};
-        if (!that.ready && (cmd !== that.getIdCommand)) return Promise.reject(new Error('Device is not ready')); //new error is better practice
-        if (that.queueLength > that.maxQLength) {
-            debug('max Queue length reached for device :', that.deviceId);
+        if (!this.ready && (cmd !== this.getIdCommand)) return Promise.reject(new Error('Device is not ready')); //new error is better practice
+        if (this.queueLength > this.maxQLength) {
+            debug('max Queue length reached for device :', this.deviceId);
             return Promise.reject(new Error('Maximum Queue size exceeded, wait for commands to be processed'));
         }
-        that.queueLength++;
-        debug('adding request to serialQ for device :', that.deviceId);
-        debug('number of requests in Queue :', that.queueLength);
+        this.queueLength++;
+        debug('adding request to serialQ for device :', this.deviceId);
+        debug('number of requests in Queue :', this.queueLength);
         //add one request to the queue at the beginning or the end
-        that.lastRequest = that.lastRequest.then(that._appendRequest(cmd, options.timeout), that._appendRequest(cmd, options.timeout));
-        return that.lastRequest;
+        this.lastRequest = this.lastRequest.then(this._appendRequest(cmd, options.timeout), this._appendRequest(cmd, options.timeout));
+        return this.lastRequest;
     }
 
     /************************************************
@@ -113,51 +112,50 @@ class SerialRequests extends EventEmitter {
             changed = true;
         }
         this.statusCode = code;
-        var that = this;
-        switch (that.statusCode) {
+        switch (this.statusCode) {
             case -1:
-                that.statusColor = 'Fuchsia ';
-                that.status = 'Serial port Error';
+                this.statusColor = 'Fuchsia ';
+                this.status = 'Serial port Error';
                 break;
             case 0:
-                that.status = 'Serial port not initialized';
-                that.statusColor = 'LightGrey';
+                this.status = 'Serial port not initialized';
+                this.statusColor = 'LightGrey';
                 break;
             case 1:
-                that.statusColor = 'Yellow';
-                that.status = 'Serial port initializing';
+                this.statusColor = 'Yellow';
+                this.status = 'Serial port initializing';
                 break;
             case 2:
-                that.statusColor = 'SpringGreen';
-                that.status = 'Serial port initialized';
+                this.statusColor = 'SpringGreen';
+                this.status = 'Serial port initialized';
                 break;
             case 3:
-                that.statusColor = 'Orange';
-                that.status = 'Serial port disconnected';
+                this.statusColor = 'Orange';
+                this.status = 'Serial port disconnected';
                 break;
             case 4:
-                that.statusColor = 'Tomato';
-                that.status = 'Serial port closed';
+                this.statusColor = 'Tomato';
+                this.status = 'Serial port closed';
                 break;
             case 5:
-                that.statusColor = 'Red';
-                that.status = 'Unable to find the port.';
+                this.statusColor = 'Red';
+                this.status = 'Unable to find the port.';
                 break;
             case 6:
-                that.statusColor = 'Tomato';
-                that.status = 'Serial port closing';
+                this.statusColor = 'Tomato';
+                this.status = 'Serial port closing';
                 break;
             case 7:
-                that.statusColor = 'Tomato';
-                that.status = 'Init command failed';
+                this.statusColor = 'Tomato';
+                this.status = 'Init command failed';
                 break;
             default:
-                that.status = 'Undefined State';
-                that.statusColor = 'LightGrey';
+                this.status = 'Undefined State';
+                this.statusColor = 'LightGrey';
                 break;
         }
-        if (code !== 2) that.ready = true;
-        else that.ready = false;
+        if (code !== 2) this.ready = true;
+        else this.ready = false;
         if(changed) {
             this.emit('statusChanged', {
                 code: this.statusCode,
@@ -168,26 +166,26 @@ class SerialRequests extends EventEmitter {
     }
 
     _appendRequest(cmd, timeout) {
-        var callId = this.deviceId;
         var that = this;
+        var callId = this.deviceId;
         timeout = timeout || this.serialResponseTimeout;
-        return function () {
-            that.currentRequest = new Promise(function (resolve, reject) {
+        return () => {
+            this.currentRequest = new Promise(function (resolve, reject) {
                 //attach solvers to the currentRequest object
-                that.resolveRequest = resolve;
-                that.rejectRequest = reject;
+                this.resolveRequest = resolve;
+                this.rejectRequest = reject;
                 var bufferSize = 0;
-                if (that.deviceId !== null && cmd !== that.getIdCommand) {
-                    if (callId !== that.deviceId) {
+                if (this.deviceId !== null && cmd !== this.getIdCommand) {
+                    if (callId !== this.deviceId) {
                         reject(new Error('invalid id'));
                         return;
                     }
                 }
                 doTimeout(true);
                 debug('Sending command:' + cmd);
-                that.port.write(cmd + '\n', function (err) {
+                this.port.write(cmd + '\n', err => {
                     if (err) {
-                        that._handleWriteError(err);
+                        this._handleWriteError(err);
                         // Just go to the next request
                         debug('write error occurred: ', err);
                         reject(new Error('Error writing to serial port'));
@@ -216,7 +214,7 @@ class SerialRequests extends EventEmitter {
                     }
                 }
             });
-            return that.currentRequest;
+            return this.currentRequest;
         };
     }
 
@@ -278,8 +276,8 @@ class SerialRequests extends EventEmitter {
             });
 
             //handle the SerialPort data events
-            this.port.on('data', (data) => {
-                this.buffer += data.toString();     //that or this ???? not clear when using one or the other
+            this.port.on('data', data => {
+                this.buffer += data.toString();
                 this.emit('data', data);
             });
         }, () => {
@@ -293,22 +291,21 @@ class SerialRequests extends EventEmitter {
     //see if the port that was used is actually connected
     _hasPort() {
         debug('called _hasPort');
-        var that = this;
-        return new Promise(function (resolve, reject) {
+        return new Promise((resolve, reject) => {
             SerialPort.list(function (err, ports) {
                 if (err) {
                     reject(err);
                     return;
                 }
                 var port = ports.find((port) => {
-                    return port.comName === that.comName;
+                    return port.comName === this.comName;
                 });
                 debug('found Port');
                 if (port) {
                     resolve();
                     return;
                 }
-                reject(new Error(`Port ${that.comName} not found`));
+                reject(new Error(`Port ${this.comName} not found`));
             });
         });
     }
