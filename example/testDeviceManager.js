@@ -1,0 +1,34 @@
+'use strict';
+
+const DeviceManager = require('.');
+
+var d = new DeviceManager({
+    optionCreator: function (portInfo) {
+        if (portInfo.manufacturer === 'Keyspan') {
+            return [
+                {baudrate: 9600},
+                {
+                    getIdCommand: '!SHOW HOST_NAME\n',
+                    getIdResponseParser: function (buffer) {
+                        var m = /^Host Name = (.*)\r\n$/.exec(buffer);
+                        if (m && m[1]) {
+                            return m[1];
+                        }
+                        throw new Error('Could not parse id response')
+                    }
+                }
+            ]
+        }
+    }
+});
+
+// d.on('new', function(s) {
+//     console.log('new serial')
+//     console.log(s);
+// });
+//
+// d.startInterval(10000);
+
+d.addRequest('blaster_test_epfl', '!SHOW HOST_NAME\n').then(res => {
+    console.log(res);
+});
