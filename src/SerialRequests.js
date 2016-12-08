@@ -5,10 +5,6 @@ const EventEmitter = require('events');
 const SerialPort = require('serialport');
 const debug = require('debug')('serial-requests:main');
 
-const defaultSerialPortOptions = {
-    parser: SerialPort.parsers.raw
-};
-
 const defaultOptions = {
     maxQLength: 30,
     serialResponseTimeout: 200,
@@ -17,14 +13,17 @@ const defaultOptions = {
     }
 };
 
+const enforcedOptions = {
+    parser: SerialPort.parsers.raw
+};
+
 class SerialRequests extends EventEmitter {
-    constructor(port, serialPortOptions, options) {
+    constructor(port, options) {
         super();
-        if (typeof serialPortOptions === 'function') {
-            this.optionCreator = serialPortOptions;
+        if (typeof options === 'function') {
+            this.optionCreator = options;
         } else {
-            this.portOptions = Object.assign({}, defaultSerialPortOptions, serialPortOptions);
-            this.options = options;
+            this.options = Object.assign({}, defaultOptions, options, enforcedOptions);
         }
         this.comName = port;
         this.portInfo = null;
@@ -37,11 +36,9 @@ class SerialRequests extends EventEmitter {
 
     _updateOptions() {
         if (this.optionCreator) {
-            [this.portOptions, this.options] = this.optionCreator(this.portInfo);
+            this.options = this.optionCreator(this.portInfo);
         }
-
-        this.portOptions = Object.assign({}, defaultSerialPortOptions, this.portOptions);
-        this.options = Object.assign({}, defaultOptions, this.options);
+        this.options = Object.assign({}, defaultOptions, this.options, enforcedOptions);
     }
 
     _serialPortInit() {
@@ -210,8 +207,8 @@ class SerialRequests extends EventEmitter {
                     } else {
                         // We haven't received anything, the request is over
                         // If needed validate the response
-                        if (that.checkResponse) {
-                            if (!that.checkResponse(that.buffer)) {
+                        if (that.options.checkResponse) {
+                            if (!that.options.checkResponse(that.buffer)) {
                                 debug('The device response to the command did not pass validation', JSON.stringify(that.buffer));
                                 return reject(new Error('The device response to the command did not pass validation'));
                             }
@@ -249,7 +246,7 @@ class SerialRequests extends EventEmitter {
         debug('reconnection attempt: ' + this.comName);
         this._hasPort().then(() => {
 
-            this.port = new SerialPort(this.comName, this.portOptions);
+            this.port = new SerialPort(this.comName, this.options);
             this.port.on('open', () => {
                 debug('opened port:', this.comName);
                 this._updateStatus(0);

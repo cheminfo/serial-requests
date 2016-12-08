@@ -1,6 +1,6 @@
 'use strict';
 
-const SerialRequests = require('.');
+const SerialRequests = require('../src/SerialRequests');
 
 const s = new SerialRequests('/dev/ttyUSB0', {
     baudrate: 9600
