@@ -2,7 +2,7 @@
 
 const debug = require('debug');
 const EventEmitter = require('events');
-const SerialRequests = require('./SerialRequests');
+const SerialRequests = require('./PortManager');
 const SerialPort = require('serialport');
 const haveConnectedIds = [];
 

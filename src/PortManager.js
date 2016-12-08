@@ -17,7 +17,7 @@ const enforcedOptions = {
     parser: SerialPort.parsers.raw
 };
 
-class SerialRequests extends EventEmitter {
+class PortManager extends EventEmitter {
     constructor(port, options) {
         super();
         if (typeof options === 'function') {
@@ -320,4 +320,4 @@ class SerialRequests extends EventEmitter {
     }
 }
 
-module.exports = SerialRequests;
+module.exports = PortManager;
