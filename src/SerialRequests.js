@@ -21,7 +21,7 @@ class SerialRequests extends EventEmitter {
         this.lastRequest = Promise.resolve('');      // The Last received request
         this.currentRequest = Promise.resolve(''); // The current request being executed
         this.serialResponseTimeout = (options.serialResponseTimeout || 200);
-        this.deviceIdParse = options.deviceIdParse || function (buffer) {
+        this.parseGetIdResponse = options.getIdResponseParser || function (buffer) {
                 return buffer;
             };
         this._updateStatus(0);
@@ -37,13 +37,13 @@ class SerialRequests extends EventEmitter {
         this._updateStatus(1);
         this.addRequest(this.getIdCommand, {timeout: 200})
             .then(buffer => {
-                debug('init command buffer ready ', buffer);
+                debug(`received init command response: ${JSON.stringify(buffer)}`);
                 //manage a change in device Id
                 //listener should be defined on other js file to destroy the object in this case
                 if (!buffer) {
                     throw new Error('Empty buffer when reading qualifier');
                 }
-                var deviceId = this.deviceIdParse(buffer);
+                var deviceId = this.parseGetIdResponse(buffer);
                 if (!deviceId) {
                     throw new Error('Device id parsing returned empty result');
                 } else if (this.deviceId && (this.deviceId !== deviceId)) {
@@ -66,8 +66,7 @@ class SerialRequests extends EventEmitter {
 
             })
             .catch(err => {
-                debug('serial init failed');
-                debug(err);
+                this._updateStatus(7, err.message);
                 this._scheduleInit();
             });
     }
@@ -108,7 +107,11 @@ class SerialRequests extends EventEmitter {
      Main Utility function, adds a Request
      To the Serial Queue and return a Promise
      ************************************************/
-    _updateStatus(code) {
+    _updateStatus(code, message) {
+        var changed = false;
+        if(this.statusCode !== code) {
+            changed = true;
+        }
         this.statusCode = code;
         var that = this;
         switch (that.statusCode) {
@@ -144,6 +147,10 @@ class SerialRequests extends EventEmitter {
                 that.statusColor = 'Tomato';
                 that.status = 'Serial port closing';
                 break;
+            case 7:
+                that.statusColor = 'Tomato';
+                that.status = 'Init command failed';
+                break;
             default:
                 that.status = 'Undefined State';
                 that.statusColor = 'LightGrey';
@@ -151,6 +158,13 @@ class SerialRequests extends EventEmitter {
         }
         if (code !== 2) that.ready = true;
         else that.ready = false;
+        if(changed) {
+            this.emit('statusChanged', {
+                code: this.statusCode,
+                status: this.status,
+                message
+            });
+        }
     }
 
     _appendRequest(cmd, timeout) {
@@ -241,6 +255,7 @@ class SerialRequests extends EventEmitter {
 
             //handle the SerialPort error events
             this.port.on('error', err => {
+                console.log('serial port error');
                 this._updateStatus(-1);
                 debug(`serialport error on ${this.comName}: ${err.message}`);
                 this.emit('error', err);
