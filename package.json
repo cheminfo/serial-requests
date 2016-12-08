@@ -2,7 +2,7 @@
   "name": "serial-requests",
   "version": "0.0.1",
   "description": "A wrapper around serial-port for managing a queue of requests on an identified device",
-  "main": "src/SerialRequests.js",
+  "main": "src/DeviceManager.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

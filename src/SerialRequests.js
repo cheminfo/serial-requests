@@ -9,32 +9,44 @@ const defaultSerialPortOptions = {
     parser: SerialPort.parsers.raw
 };
 
+const defaultOptions = {
+    maxQLength: 30,
+    serialResponseTimeout: 200,
+    getIdResponseParser: function (buffer) {
+        return buffer;
+    }
+};
+
 class SerialRequests extends EventEmitter {
     constructor(port, serialPortOptions, options) {
         super();
-        this.portOptions = Object.assign({}, defaultSerialPortOptions, serialPortOptions);
+        if (typeof serialPortOptions === 'function') {
+            this.optionCreator = serialPortOptions;
+        } else {
+            this.portOptions = Object.assign({}, defaultSerialPortOptions, serialPortOptions);
+            this.options = options;
+        }
         this.comName = port;
-        this.getIdCommand = (options.getIdCommand);
+        this.portInfo = null;
         this.queueLength = 0;
-        this.maxQLength = (options.maxQLength || 30);
         this.buffer = '';
         this.lastRequest = Promise.resolve('');      // The Last received request
         this.currentRequest = Promise.resolve(''); // The current request being executed
-        this.serialResponseTimeout = (options.serialResponseTimeout || 200);
-        this.parseGetIdResponse = options.getIdResponseParser || function (buffer) {
-                return buffer;
-            };
         this._reconnectionAttempt();
     }
 
-    /*****************************************************
-     Queue Management Functions
-     *****************************************************/
+    _updateOptions() {
+        if (this.optionCreator) {
+            [this.portOptions, this.options] = this.optionCreator(this.portInfo);
+        }
 
+        this.portOptions = Object.assign({}, defaultSerialPortOptions, this.portOptions);
+        this.options = Object.assign({}, defaultOptions, this.options);
+    }
 
-    serialPortInit() {
+    _serialPortInit() {
         this._updateStatus(1);
-        this.addRequest(this.getIdCommand, {timeout: 200})
+        this.addRequest(this.options.getIdCommand)
             .then(buffer => {
                 debug(`received init command response: ${JSON.stringify(buffer)}`);
                 //manage a change in device Id
@@ -42,7 +54,7 @@ class SerialRequests extends EventEmitter {
                 if (!buffer) {
                     throw new Error('Empty buffer when reading qualifier');
                 }
-                var deviceId = this.parseGetIdResponse(buffer);
+                var deviceId = this.options.getIdResponseParser(buffer);
                 if (!deviceId) {
                     throw new Error('Device id parsing returned empty result');
                 } else if (this.deviceId && (this.deviceId !== deviceId)) {
@@ -70,33 +82,25 @@ class SerialRequests extends EventEmitter {
             });
     }
 
-    destroy() {
-        if (this.initTimeout) {
-            clearTimeout(this.initTimeout); //core of the solution
-        }
-    }
-
-    //here we clear the timeout if already existing, avoid multiple instances of serialportinit running in parallel
     _scheduleInit() {
         if (this.initTimeout) {
-            clearTimeout(this.initTimeout); //core of the solution
+            clearTimeout(this.initTimeout);
         }
         this.initTimeout = setTimeout(() => {
-            this.serialPortInit();
+            this._serialPortInit();
         }, 2000);
     }
 
     addRequest(cmd, options) {
         options = options || {};
-        if (!this.ready && (cmd !== this.getIdCommand)) return Promise.reject(new Error('Device is not ready')); //new error is better practice
-        if (this.queueLength > this.maxQLength) {
+        if (!this.ready && (cmd !== this.options.getIdCommand)) return Promise.reject(new Error('Device is not ready')); //new error is better practice
+        if (this.queueLength > this.options.maxQLength) {
             debug('max Queue length reached for device :', this.deviceId);
             return Promise.reject(new Error('Maximum Queue size exceeded, wait for commands to be processed'));
         }
         this.queueLength++;
         debug('adding request to serialQ for device :', this.deviceId);
         debug('number of requests in Queue :', this.queueLength);
-        //add one request to the queue at the beginning or the end
         this.lastRequest = this.lastRequest.then(this._appendRequest(cmd, options.timeout), this._appendRequest(cmd, options.timeout));
         return this.lastRequest;
     }
@@ -107,7 +111,7 @@ class SerialRequests extends EventEmitter {
      ************************************************/
     _updateStatus(code, message) {
         var changed = false;
-        if(this.statusCode !== code) {
+        if (this.statusCode !== code) {
             changed = true;
         }
         this.statusCode = code;
@@ -153,9 +157,13 @@ class SerialRequests extends EventEmitter {
                 this.statusColor = 'LightGrey';
                 break;
         }
-        if (code === 2) this.ready = true;
-        else this.ready = false;
-        if(changed) {
+        if (code === 2) {
+            this.ready = true;
+        } else {
+            // this.portInfo = null;
+            this.ready = false;
+        }
+        if (changed) {
             this.emit('statusChanged', {
                 code: this.statusCode,
                 status: this.status,
@@ -167,14 +175,14 @@ class SerialRequests extends EventEmitter {
     _appendRequest(cmd, timeout) {
         var that = this;
         var callId = this.deviceId;
-        timeout = timeout || this.serialResponseTimeout;
+        timeout = timeout || this.options.serialResponseTimeout;
         return () => {
             this.currentRequest = new Promise((resolve, reject) => {
                 //attach solvers to the currentRequest object
                 this.resolveRequest = resolve;
                 this.rejectRequest = reject;
                 var bufferSize = 0;
-                if (this.deviceId !== null && cmd !== this.getIdCommand) {
+                if (this.deviceId !== null && cmd !== this.options.getIdCommand) {
                     if (callId !== this.deviceId) {
                         reject(new Error('invalid id'));
                         return;
@@ -240,14 +248,14 @@ class SerialRequests extends EventEmitter {
     _reconnectionAttempt() {
         debug('reconnection attempt: ' + this.comName);
         this._hasPort().then(() => {
+
             this.port = new SerialPort(this.comName, this.portOptions);
-            // propagate SerialPort events + handle messages (listeners)
-            //handle the SerialPort open events
             this.port.on('open', () => {
                 debug('opened port:', this.comName);
-                this.emit('open');
                 this._updateStatus(0);
-                this.serialPortInit();
+                this.emit('open');
+                this._updateOptions();
+                this._serialPortInit();
             });
 
             //handle the SerialPort error events
@@ -297,6 +305,7 @@ class SerialRequests extends EventEmitter {
                 });
                 debug('found Port');
                 if (port) {
+                    this.portInfo = port;
                     resolve();
                     return;
                 }
@@ -312,7 +321,6 @@ class SerialRequests extends EventEmitter {
             this._reconnectionAttempt();
         }, 2000);
     }
-
 }
 
 module.exports = SerialRequests;
