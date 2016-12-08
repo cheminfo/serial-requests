@@ -24,7 +24,6 @@ class SerialRequests extends EventEmitter {
         this.parseGetIdResponse = options.getIdResponseParser || function (buffer) {
                 return buffer;
             };
-        this._updateStatus(0);
         this._reconnectionAttempt();
     }
 
@@ -58,7 +57,7 @@ class SerialRequests extends EventEmitter {
                     this.emit('ready', this.deviceId);
                     debug(`Serial port initialized: ${this.deviceId}`);
                 } else {
-                    this.deviceId = parseInt(buffer);
+                    this.deviceId = deviceId;
                     this._updateStatus(2);
                     this.emit('reinitialized', this.deviceId);
                     debug(`Serial port re-initialized: ${this.deviceId}`);
@@ -115,15 +114,15 @@ class SerialRequests extends EventEmitter {
         switch (this.statusCode) {
             case -1:
                 this.statusColor = 'Fuchsia ';
-                this.status = 'Serial port Error';
+                this.status = 'serial port Error';
                 break;
             case 0:
-                this.status = 'Serial port not initialized';
+                this.status = 'serial port open';
                 this.statusColor = 'LightGrey';
                 break;
             case 1:
                 this.statusColor = 'Yellow';
-                this.status = 'Serial port initializing';
+                this.status = 'getting device id';
                 break;
             case 2:
                 this.statusColor = 'SpringGreen';
@@ -170,7 +169,7 @@ class SerialRequests extends EventEmitter {
         var callId = this.deviceId;
         timeout = timeout || this.serialResponseTimeout;
         return () => {
-            this.currentRequest = new Promise(function (resolve, reject) {
+            this.currentRequest = new Promise((resolve, reject) => {
                 //attach solvers to the currentRequest object
                 this.resolveRequest = resolve;
                 this.rejectRequest = reject;
@@ -197,7 +196,7 @@ class SerialRequests extends EventEmitter {
                     if (bufferSize < that.buffer.length || force) {
                         // We received something or we force renewal: we wait for another round
                         bufferSize = that.buffer.length;
-                        that.timeout = setTimeout(function () {
+                        that.timeout = setTimeout(() => {
                             doTimeout();
                         }, timeout);
                     } else {
@@ -248,34 +247,31 @@ class SerialRequests extends EventEmitter {
                 debug('opened port:', this.comName);
                 this.emit('open');
                 this._updateStatus(0);
-                this._scheduleInit();
+                this.serialPortInit();
             });
 
             //handle the SerialPort error events
             this.port.on('error', err => {
-                console.log('serial port error');
                 this._updateStatus(-1);
                 debug(`serialport error on ${this.comName}: ${err.message}`);
                 this.emit('error', err);
+                this._tryLater();
+
             });
 
-            //handle the SerialPort disconnect events
             this.port.on('disconnect', err => {
                 this._updateStatus(3);
                 debug(`serialport disconnect on port ${this.comName}: ${err.message}`);
                 this.emit('disconnect', this.deviceId);
             });
 
-            //handle the SerialPort close events and destruct the SerialQueue manager
             this.port.on('close', err => {
                 this._updateStatus(4);
-                debug(`serialport close on port ${this.comName}: ${err.message}`);
-                // delete this.port;
+                debug(`serialport close on port ${this.comName}`);
                 this.emit('close', err);
                 this._reconnectionAttempt();
             });
 
-            //handle the SerialPort data events
             this.port.on('data', data => {
                 this.buffer += data.toString();
                 this.emit('data', data);
@@ -288,11 +284,10 @@ class SerialRequests extends EventEmitter {
 
     }
 
-    //see if the port that was used is actually connected
     _hasPort() {
         debug('called _hasPort');
         return new Promise((resolve, reject) => {
-            SerialPort.list(function (err, ports) {
+            SerialPort.list((err, ports) => {
                 if (err) {
                     reject(err);
                     return;
