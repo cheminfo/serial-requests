@@ -47,20 +47,6 @@ class DeviceManager extends EventEmitter { //issue with extends EventEmitter
         });
     }
 
-    stopInterval() {
-        clearInterval(this.intervalId);
-        this.intervalId = undefined;
-    }
-
-    startInterval(interval) {
-        var that = this;
-        clearInterval(this.intervalId);
-        this._updateList().then(doInterval, doInterval);
-        function doInterval() {
-            that.intervalId = setInterval(that._updateList.bind(that), interval);
-        }
-    }
-
     refresh() {
         if (this.refreshing) {
             return this.refreshPromise;
