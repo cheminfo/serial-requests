@@ -153,7 +153,7 @@ class SerialRequests extends EventEmitter {
                 this.statusColor = 'LightGrey';
                 break;
         }
-        if (code !== 2) this.ready = true;
+        if (code === 2) this.ready = true;
         else this.ready = false;
         if(changed) {
             this.emit('statusChanged', {
