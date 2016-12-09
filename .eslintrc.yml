@@ -1,0 +1,6 @@
+extends: cheminfo
+parserOptions:
+  ecmaVersion: '2015'
+rules:
+  camelcase: ['error', {properties: never}]
+  require-yield: 'off'
