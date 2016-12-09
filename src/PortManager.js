@@ -17,7 +17,65 @@ const enforcedOptions = {
     parser: SerialPort.parsers.raw
 };
 
+
+/**
+ * @constructor
+ * @param {string} port - The serial port to connect to
+ * @param {object|function} options - options
+ */
 class PortManager extends EventEmitter {
+    /**
+     * open event
+     * The connection to the port was successfully opened. Fires each time the port is reconnected
+     *
+     * @event PortManager#open
+     */
+
+    /**
+     * error event
+     * The attempt to connect to the port failed. Fires each time a connection attemps fails.
+     *
+     * @event PortManager#error
+     */
+
+    /**
+     * ready event
+     * The port is initialized, and knows the id of the id it is connected to
+     *
+     * @event PortManager#ready
+     * @type {object}
+     * @property {string} id - The id of the ready device
+     */
+
+    /**
+     * disconnect event
+     * The port has disconnected
+     *
+     * @event PortManager#disconnect
+     * @type {object}
+     * @property {string} id - The id of the disconnected device
+     */
+
+    /**
+     * idchange event
+     * Upon reconnection, the id of the device connected to the port has changed
+     *
+     * @event PortManager#idchange
+     * @type {object}
+     * @property {string} id -  The new device id
+     */
+
+    /**
+     * reinitialize event
+     * Upon reconnection, the id of the device connected to the port is still the same
+     *
+     * @event PortManager#reinitialize
+     * @type {object}
+     * @property {string} id -  Device id
+     */
+
+
+
     constructor(port, options) {
         super();
         if (typeof options === 'function') {
@@ -32,6 +90,28 @@ class PortManager extends EventEmitter {
         this.lastRequest = Promise.resolve('');      // The Last received request
         this.currentRequest = Promise.resolve('');   // The current request being executed
         this._reconnectionAttempt();
+    }
+
+    /**
+     * Send a request to the port
+     * @param {string} cmd - The data to send to the serial port
+     * @param {object} [options={}] - Request options
+     * @param {object} [options.timeout=200] - Timeout in ms. This is used to know when a request is considered finished.
+     * A request is considered finished when the serial port stopped receiving data for more than the given timeout.
+     * @returns {Promise.<string>} - A promise resolving with response to the request
+     */
+    addRequest(cmd, options) {
+        options = options || {};
+        if (!this.ready && (cmd !== this.options.getIdCommand)) return Promise.reject(new Error('Device is not ready'));
+        if (this.queueLength > this.options.maxQLength) {
+            debug('max Queue length reached for device :', this.deviceId);
+            return Promise.reject(new Error('Maximum Queue size exceeded, wait for commands to be processed'));
+        }
+        this.queueLength++;
+        debug('adding request to serialQ for device :', this.deviceId);
+        debug('number of requests in Queue :', this.queueLength);
+        this.lastRequest = this.lastRequest.then(this._appendRequest(cmd, options.timeout), this._appendRequest(cmd, options.timeout));
+        return this.lastRequest;
     }
 
     _updateOptions() {
@@ -55,17 +135,17 @@ class PortManager extends EventEmitter {
                 } else if (this.deviceId && (this.deviceId !== deviceId)) {
                     this.deviceId = deviceId;
                     debug(`Device Id changed to: ${deviceId}`);
-                    this.emit('idchange', this.deviceId);
+                    this.emit('idchange', {id: this.deviceId});
                     this._updateStatus(2);
                 } else if (!this.deviceId) {
                     this.deviceId = deviceId;
                     this._updateStatus(2);
-                    this.emit('ready', this.deviceId);
+                    this.emit('ready', {id: this.deviceId});
                     debug(`Serial port initialized: ${this.deviceId}`);
                 } else {
                     this.deviceId = deviceId;
                     this._updateStatus(2);
-                    this.emit('reinitialized', this.deviceId);
+                    this.emit('reinitialized', {id: this.deviceId});
                     debug(`Serial port re-initialized: ${this.deviceId}`);
                 }
 
@@ -83,20 +163,6 @@ class PortManager extends EventEmitter {
         this.initTimeout = setTimeout(() => {
             this._serialPortInit();
         }, 2000);
-    }
-
-    addRequest(cmd, options) {
-        options = options || {};
-        if (!this.ready && (cmd !== this.options.getIdCommand)) return Promise.reject(new Error('Device is not ready'));
-        if (this.queueLength > this.options.maxQLength) {
-            debug('max Queue length reached for device :', this.deviceId);
-            return Promise.reject(new Error('Maximum Queue size exceeded, wait for commands to be processed'));
-        }
-        this.queueLength++;
-        debug('adding request to serialQ for device :', this.deviceId);
-        debug('number of requests in Queue :', this.queueLength);
-        this.lastRequest = this.lastRequest.then(this._appendRequest(cmd, options.timeout), this._appendRequest(cmd, options.timeout));
-        return this.lastRequest;
     }
 
     _updateStatus(code, message) {
@@ -253,7 +319,7 @@ class PortManager extends EventEmitter {
             this.port.on('disconnect', err => {
                 this._updateStatus(3);
                 debug(`serialport disconnect on port ${this.comName}: ${err.message}`);
-                this.emit('disconnect', this.deviceId);
+                this.emit('disconnect', {id: this.deviceId});
             });
 
             this.port.on('close', err => {
