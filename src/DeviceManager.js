@@ -2,7 +2,7 @@
 
 const debug = require('debug');
 const EventEmitter = require('events');
-const SerialRequests = require('./PortManager');
+const PortManager = require('./PortManager');
 const SerialPort = require('serialport');
 const haveConnectedIds = [];
 
@@ -10,7 +10,7 @@ const defaultOptions = {
     timeout: 5000
 };
 
-class DeviceManager extends EventEmitter { //issue with extends EventEmitter
+class DeviceManager extends EventEmitter {
     constructor(options) {
         super();
         this.options = Object.assign({}, defaultOptions, options);
@@ -55,7 +55,6 @@ class DeviceManager extends EventEmitter { //issue with extends EventEmitter
         return this.refreshPromise;
     }
 
-    // Internal management of the SerialQ Lookup
     _updateList() {
         debug('call to _updateList method');
         var that = this;
@@ -68,28 +67,24 @@ class DeviceManager extends EventEmitter { //issue with extends EventEmitter
                     return reject(err);
                 }
                 // Pass port info through optionCreator
-                // Check if it look like an array
                 var selectedPorts = ports.filter(that.options.optionCreator);
                 selectedPorts.forEach(function (port) {
                     debug('device with desired specs on port :', port.comName);
                     if (!that.serialQManagers[port.comName]) {
-                        //create new serial Queue manager if a new serial device was connected
-                        that.serialQManagers[port.comName] = new SerialRequests(port.comName, that.options.optionCreator);
+                        // if no PortManager exists for this comName, create it
+                        that.serialQManagers[port.comName] = new PortManager(port.comName, that.options.optionCreator);
                         debug('instantiated new SerialQ');
 
-                        //on ready event
                         that.serialQManagers[port.comName].on('ready', (id) => {
                             debug('serialQManager ready event, instantiating Device entry:' + id);
                             that._deviceConnected(id, port.comName);
                         });
 
-                        //on reinit event
                         that.serialQManagers[port.comName].on('reinitialized', (id) => {
                             debug('rematching port and device id on reinitialisation:' + id);
                             that._deviceConnected(id, port.comName);
                         });
 
-                        //on idchange event
                         that.serialQManagers[port.comName].on('idchange', (id) => {
                             debug('on deviceId change for port' + port.comName);
                             debug('serialQManager idchangevent event, instantiating Device entry:' + id);

@@ -30,7 +30,7 @@ class PortManager extends EventEmitter {
         this.queueLength = 0;
         this.buffer = '';
         this.lastRequest = Promise.resolve('');      // The Last received request
-        this.currentRequest = Promise.resolve(''); // The current request being executed
+        this.currentRequest = Promise.resolve('');   // The current request being executed
         this._reconnectionAttempt();
     }
 
@@ -46,8 +46,6 @@ class PortManager extends EventEmitter {
         this.addRequest(this.options.getIdCommand)
             .then(buffer => {
                 debug(`received init command response: ${JSON.stringify(buffer)}`);
-                //manage a change in device Id
-                //listener should be defined on other js file to destroy the object in this case
                 if (!buffer) {
                     throw new Error('Empty buffer when reading qualifier');
                 }
@@ -58,7 +56,6 @@ class PortManager extends EventEmitter {
                     this.deviceId = deviceId;
                     debug(`Device Id changed to: ${deviceId}`);
                     this.emit('idchange', this.deviceId);
-                    //to do if device id changed --> reject all promises related to serialQ  --> reinit promise promiseQ
                     this._updateStatus(2);
                 } else if (!this.deviceId) {
                     this.deviceId = deviceId;
@@ -90,7 +87,7 @@ class PortManager extends EventEmitter {
 
     addRequest(cmd, options) {
         options = options || {};
-        if (!this.ready && (cmd !== this.options.getIdCommand)) return Promise.reject(new Error('Device is not ready')); //new error is better practice
+        if (!this.ready && (cmd !== this.options.getIdCommand)) return Promise.reject(new Error('Device is not ready'));
         if (this.queueLength > this.options.maxQLength) {
             debug('max Queue length reached for device :', this.deviceId);
             return Promise.reject(new Error('Maximum Queue size exceeded, wait for commands to be processed'));
@@ -102,10 +99,6 @@ class PortManager extends EventEmitter {
         return this.lastRequest;
     }
 
-    /************************************************
-     Main Utility function, adds a Request
-     To the Serial Queue and return a Promise
-     ************************************************/
     _updateStatus(code, message) {
         var changed = false;
         if (this.statusCode !== code) {
@@ -175,7 +168,6 @@ class PortManager extends EventEmitter {
         timeout = timeout || this.options.serialResponseTimeout;
         return () => {
             this.currentRequest = new Promise((resolve, reject) => {
-                //attach solvers to the currentRequest object
                 this.resolveRequest = resolve;
                 this.rejectRequest = reject;
                 var bufferSize = 0;
@@ -190,7 +182,6 @@ class PortManager extends EventEmitter {
                 this.port.write(cmd + '\n', err => {
                     if (err) {
                         this._handleWriteError(err);
-                        // Just go to the next request
                         debug('write error occurred: ', err);
                         reject(new Error('Error writing to serial port'));
                     }
@@ -227,7 +218,6 @@ class PortManager extends EventEmitter {
         this.resolveRequest(response);
     }
 
-    //error handler
     _handleWriteError(err) {
         if (!this.ready) return; // Already handling an error
         this._updateStatus(6);
@@ -238,10 +228,6 @@ class PortManager extends EventEmitter {
         });
     }
 
-    // Utilities, outside the constructor
-    // Should not be called outside of here
-    // They handle disconnect/reconnect events
-    //reconnection handler
     _reconnectionAttempt() {
         debug('reconnection attempt: ' + this.comName);
         this._hasPort().then(() => {
@@ -255,7 +241,6 @@ class PortManager extends EventEmitter {
                 this._serialPortInit();
             });
 
-            //handle the SerialPort error events
             this.port.on('error', err => {
                 this._updateStatus(-1);
                 debug(`serialport error on ${this.comName}: ${err.message}`);
@@ -311,7 +296,6 @@ class PortManager extends EventEmitter {
         });
     }
 
-    //wait loop
     _tryLater() {
         debug('Unable to connect to port ', this.comName, '. Please check if your device is connected or your device configuration. We will retry connecting every 2 seconds');
         setTimeout(() => {

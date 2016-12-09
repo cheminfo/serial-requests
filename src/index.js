@@ -1,4 +1,4 @@
 'use strict';
 
 exports.DeviceManager = require('./DeviceManager');
-exports.PortManager= require('./PortManager');
+exports.PortManager = require('./PortManager');
