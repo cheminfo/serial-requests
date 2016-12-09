@@ -25,4 +25,6 @@ var d = new DeviceManager({
 
 d.addRequest('blaster_test_epfl', '!SHOW HOST_NAME\n').then(res => {
     console.log(res);
+}).catch(err => {
+    console.log('add request failed', err);
 });

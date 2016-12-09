@@ -41,7 +41,7 @@ class DeviceManager extends EventEmitter {
                 setTimeout(() => {
                     this.removeListener('new', deviceReady);
                     this.removeListener('connect', deviceReady);
-                    reject(new Error(`timeout exceeded. Device with ID ${id} is not connected or slow to initialize`));
+                    reject(new Error(`timeout exceeded. Device with ID ${id} is not connected, failed to init, or is slow to init`));
                 }, this.options.timeout);
             });
         });
