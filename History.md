@@ -1,3 +1,13 @@
+<a name="0.1.1"></a>
+## [0.1.1](https://github.com/cheminfo/serial-requests/compare/v0.1.0...v0.1.1) (2016-12-09)
+
+
+### Bug Fixes
+
+* correct package entry point ([c2606fa](https://github.com/cheminfo/serial-requests/commit/c2606fa))
+
+
+
 <a name="0.1.0"></a>
 # [0.1.0](https://github.com/cheminfo/serial-requests/compare/v0.0.1...v0.1.0) (2016-12-09)
 
