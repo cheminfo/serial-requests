@@ -64,7 +64,8 @@ class DeviceManager extends EventEmitter {
                 that.refreshing = false;
                 if (err) {
                     debug('Port List failed : ' + err);
-                    return reject(err);
+                    reject(err);
+                    return;
                 }
                 // Pass port info through optionCreator
                 var selectedPorts = ports.filter(that.options.optionCreator);

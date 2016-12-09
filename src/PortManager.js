@@ -201,7 +201,8 @@ class PortManager extends EventEmitter {
                         if (that.options.checkResponse) {
                             if (!that.options.checkResponse(that.buffer)) {
                                 debug('The device response to the command did not pass validation', JSON.stringify(that.buffer));
-                                return reject(new Error('The device response to the command did not pass validation'));
+                                reject(new Error('The device response to the command did not pass validation'));
+                                return;
                             }
                         }
                         that._resolve(that.buffer);
