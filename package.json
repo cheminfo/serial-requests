@@ -1,6 +1,6 @@
 {
   "name": "serial-requests",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A wrapper around serial-port for managing a queue of requests on an identified device",
   "main": "src/DeviceManager.js",
   "scripts": {
