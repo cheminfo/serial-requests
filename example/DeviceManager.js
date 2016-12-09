@@ -23,13 +23,6 @@ var d = new DeviceManager({
     }
 });
 
-// d.on('new', function(s) {
-//     console.log('new serial')
-//     console.log(s);
-// });
-//
-// d.startInterval(10000);
-
 d.addRequest('blaster_test_epfl', '!SHOW HOST_NAME\n').then(res => {
     console.log(res);
 });
