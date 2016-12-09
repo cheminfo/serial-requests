@@ -3,8 +3,7 @@
 const SerialRequests = require('../src/PortManager');
 
 const s = new SerialRequests('/dev/ttyUSB0', {
-    baudrate: 9600
-}, {
+    baudrate: 9600,
     getIdCommand: '!SHOW HOST_NAME\n',
     getIdResponseParser: function(buffer) {
         var m = /^Host Name = (.*)\r\n$/.exec(buffer);
@@ -49,7 +48,7 @@ TEXT 4 10 0 BCH
 BARCODE QR 200 80 4 M=2 A~
 ~HA,l:BCH~
 END`).then(data => {
-        console.log('done request:', data);
+        console.log('done request');
     }, err => {
         console.log('req error: ', err);
     });
