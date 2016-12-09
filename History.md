@@ -1,3 +1,16 @@
+<a name="0.1.0"></a>
+# [0.1.0](https://github.com/cheminfo/serial-requests/compare/v0.0.1...v0.1.0) (2016-12-09)
+
+
+* change event messages ([9a28ff4](https://github.com/cheminfo/serial-requests/commit/9a28ff4))
+
+
+### BREAKING CHANGES
+
+* event messages are now objects instead of strings in order for future messages to be more complex without breaking the api.
+
+
+
 <a name="0.0.1"></a>
 ## 0.0.1 (2016-12-09)
 
