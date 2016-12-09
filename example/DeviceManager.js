@@ -1,6 +1,6 @@
 'use strict';
 
-const DeviceManager = require('../src/DeviceManager');
+const DeviceManager = require('..').DeviceManager;
 
 var d = new DeviceManager({
     optionCreator: function (portInfo) {
