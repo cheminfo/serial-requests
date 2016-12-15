@@ -1,6 +1,6 @@
 'use strict';
 
-const debug = require('debug');
+const debug = require('debug')('serial-requests:DeviceManager');
 const EventEmitter = require('events');
 const PortManager = require('./PortManager');
 const SerialPort = require('serialport');

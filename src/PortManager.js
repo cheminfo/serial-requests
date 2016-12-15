@@ -3,7 +3,7 @@
 
 const EventEmitter = require('events');
 const SerialPort = require('serialport');
-const debug = require('debug')('serial-requests:main');
+const debug = require('debug')('serial-requests:PortManager');
 
 const defaultOptions = {
     maxQLength: 30,
