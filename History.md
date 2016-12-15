@@ -1,3 +1,14 @@
+<a name="0.1.2"></a>
+## [0.1.2](https://github.com/cheminfo/serial-requests/compare/v0.1.1...v0.1.2) (2016-12-15)
+
+
+### Bug Fixes
+
+* **DeviceManager:** initialize debug correctly ([ec5644f](https://github.com/cheminfo/serial-requests/commit/ec5644f))
+* **PortManager:** send unchanged command ([af08745](https://github.com/cheminfo/serial-requests/commit/af08745))
+
+
+
 <a name="0.1.1"></a>
 ## [0.1.1](https://github.com/cheminfo/serial-requests/compare/v0.1.0...v0.1.1) (2016-12-09)
 
