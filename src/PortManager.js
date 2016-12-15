@@ -245,7 +245,7 @@ class PortManager extends EventEmitter {
                 }
                 doTimeout(true);
                 debug('Sending command:' + cmd);
-                this.port.write(cmd + '\n', err => {
+                this.port.write(cmd, err => {
                     if (err) {
                         this._handleWriteError(err);
                         debug('write error occurred: ', err);
