@@ -1,3 +1,13 @@
+<a name="0.1.3"></a>
+## [0.1.3](https://github.com/cheminfo/serial-requests/compare/v0.1.2...v0.1.3) (2016-12-16)
+
+
+### Bug Fixes
+
+* **PortManager:** update options before serial port initialization ([87327f3](https://github.com/cheminfo/serial-requests/commit/87327f3))
+
+
+
 <a name="0.1.2"></a>
 ## [0.1.2](https://github.com/cheminfo/serial-requests/compare/v0.1.1...v0.1.2) (2016-12-15)
 
