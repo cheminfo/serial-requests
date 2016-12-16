@@ -298,13 +298,12 @@ class PortManager extends EventEmitter {
     _reconnectionAttempt() {
         debug('reconnection attempt: ' + this.comName);
         this._hasPort().then(() => {
-
+            this._updateOptions();
             this.port = new SerialPort(this.comName, this.options);
             this.port.on('open', () => {
                 debug('opened port:', this.comName);
                 this._updateStatus(0);
                 this.emit('open');
-                this._updateOptions();
                 this._serialPortInit();
             });
 
