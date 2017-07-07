@@ -247,8 +247,9 @@ class PortManager extends EventEmitter {
                         this._handleWriteError(err);
                         debug('write error occurred: ', err);
                         _reject(new Error('Error writing to serial port'));
+                    } else {
+                        doTimeout(true);
                     }
-                    doTimeout(true);
                 });
 
                 function doTimeout(force) {
