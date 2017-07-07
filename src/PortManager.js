@@ -233,23 +233,22 @@ class PortManager extends EventEmitter {
         timeout = timeout || this.options.serialResponseTimeout;
         return () => {
             this.currentRequest = new Promise((resolve, reject) => {
-                this.resolveRequest = resolve;
-                this.rejectRequest = reject;
                 var bufferSize = 0;
                 if (this.deviceId !== null && cmd !== this.options.getIdCommand) {
                     if (callId !== this.deviceId) {
-                        this._reject(new Error('invalid id'));
+                        _reject(new Error('invalid id'));
                         return;
                     }
                 }
-                doTimeout(true);
+
                 debug('Sending command:' + cmd);
                 this.port.write(cmd, err => {
                     if (err) {
                         this._handleWriteError(err);
                         debug('write error occurred: ', err);
-                        this._reject(new Error('Error writing to serial port'));
+                        _reject(new Error('Error writing to serial port'));
                     }
+                    doTimeout(true);
                 });
 
                 function doTimeout(force) {
@@ -261,32 +260,32 @@ class PortManager extends EventEmitter {
                             doTimeout();
                         }, timeout);
                     } else {
-                        // We haven't received anything, the request is over
+                        // We haven't received new data, the request is considered to be over
                         // If needed validate the response
                         if (that.options.checkResponse) {
                             if (!that.options.checkResponse(that.buffer)) {
                                 debug('The device response to the command did not pass validation', JSON.stringify(that.buffer));
-                                that._reject(new Error('The device response to the command did not pass validation'));
+                                _reject(new Error('The device response to the command did not pass validation'));
                                 return;
                             }
                         }
-                        that._resolve(that.buffer);
+                        _resolve(that.buffer);
                         that.buffer = ''; //empty the buffer
                     }
+                }
+
+                function _resolve(response) {
+                    that.queueLength--;
+                    resolve(response);
+                }
+
+                function _reject(error) {
+                    that.queueLength--;
+                    reject(error);
                 }
             });
             return this.currentRequest;
         };
-    }
-
-    _reject(error) {
-        this.queueLength--;
-        this.rejectRequest(error);
-    }
-
-    _resolve(response) {
-        this.queueLength--;
-        this.resolveRequest(response);
     }
 
     _handleWriteError(err) {
