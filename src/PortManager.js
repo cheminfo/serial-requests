@@ -239,7 +239,7 @@ class PortManager extends EventEmitter {
                 var bufferSize = 0;
                 if (this.deviceId !== null && cmd !== this.options.getIdCommand) {
                     if (callId !== this.deviceId) {
-                        reject(new Error('invalid id'));
+                        this._reject(new Error('invalid id'));
                         return;
                     }
                 }
@@ -249,12 +249,12 @@ class PortManager extends EventEmitter {
                     if (err) {
                         this._handleWriteError(err);
                         debug('write error occurred: ', err);
-                        reject(new Error('Error writing to serial port'));
+                        this._reject(new Error('Error writing to serial port'));
                     }
                 });
 
                 function doTimeout(force) {
-                    //keeps calling itself recursively as long as the request was not served
+                    // keeps calling itself "recursively" as long as the request was not served
                     if (bufferSize < that.buffer.length || force) {
                         // We received something or we force renewal: we wait for another round
                         bufferSize = that.buffer.length;
@@ -267,7 +267,7 @@ class PortManager extends EventEmitter {
                         if (that.options.checkResponse) {
                             if (!that.options.checkResponse(that.buffer)) {
                                 debug('The device response to the command did not pass validation', JSON.stringify(that.buffer));
-                                reject(new Error('The device response to the command did not pass validation'));
+                                that._reject(new Error('The device response to the command did not pass validation'));
                                 return;
                             }
                         }
@@ -278,6 +278,11 @@ class PortManager extends EventEmitter {
             });
             return this.currentRequest;
         };
+    }
+
+    _reject(error) {
+        this.queueLength--;
+        this.rejectRequest(error);
     }
 
     _resolve(response) {
