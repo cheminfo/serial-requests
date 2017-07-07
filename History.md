@@ -1,3 +1,8 @@
+<a name="0.1.4"></a>
+## [0.1.4](https://github.com/cheminfo/serial-requests/compare/v0.1.3...v0.1.4) (2017-07-07)
+
+
+
 <a name="0.1.3"></a>
 ## [0.1.3](https://github.com/cheminfo/serial-requests/compare/v0.1.2...v0.1.3) (2016-12-16)
 
