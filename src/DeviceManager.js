@@ -60,7 +60,7 @@ class DeviceManager extends EventEmitter {
      * @param {object} options - request options
      * @param {number} [options.timeout=200] - Timeout in ms. This is used to know when a request is considered finished.
      * A request is considered finished when the serial port stopped receiving data for more than the given timeout.
-     * @returns {Promise.<string>} - The response to the request
+     * @return {Promise.<string>} - The response to the request
      */
     addRequest(id, cmd, options) {
         return this._getSerialQ(id).then(s => s.addRequest(cmd, options));
@@ -68,7 +68,7 @@ class DeviceManager extends EventEmitter {
 
     /**
      * Get the current list of all connected devices
-     * @returns {Array<string>} An array of ids
+     * @return {Array<string>} An array of ids
      */
     getDeviceIds() {
         // Return the ids of all currently connected devices
@@ -80,7 +80,7 @@ class DeviceManager extends EventEmitter {
      * option returns a truthy value. See PortManager
      * @fires DeviceManager#new
      * @fires DeviceManager#connect
-     * @returns {Promise} A promise that resolves after the list of available ports has been listed
+     * @return {Promise} A promise that resolves after the list of available ports has been listed
      */
     refresh() {
         if (this.refreshing) {

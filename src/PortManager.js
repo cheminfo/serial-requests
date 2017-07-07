@@ -75,7 +75,6 @@ class PortManager extends EventEmitter {
      */
 
 
-
     constructor(port, options) {
         super();
         if (typeof options === 'function') {
@@ -87,8 +86,8 @@ class PortManager extends EventEmitter {
         this.portInfo = null;
         this.queueLength = 0;
         this.buffer = '';
-        this.lastRequest = Promise.resolve('');      // The Last received request
-        this.currentRequest = Promise.resolve('');   // The current request being executed
+        this.lastRequest = Promise.resolve(''); // The Last received request
+        this.currentRequest = Promise.resolve(''); // The current request being executed
         this._reconnectionAttempt();
     }
 
@@ -98,7 +97,7 @@ class PortManager extends EventEmitter {
      * @param {object} [options={}] - Request options
      * @param {object} [options.timeout=200] - Timeout in ms. This is used to know when a request is considered finished.
      * A request is considered finished when the serial port stopped receiving data for more than the given timeout.
-     * @returns {Promise.<string>} - A promise resolving with response to the request
+     * @return {Promise.<string>} - A promise resolving with response to the request
      */
     addRequest(cmd, options) {
         options = options || {};
