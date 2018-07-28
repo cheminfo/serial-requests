@@ -2,19 +2,19 @@
 <html>
 <head>
   <meta charset='utf-8' />
-  <title>serial-requests 0.1.6 | Documentation</title>
+  <title>serial-requests 0.2.0 | Documentation</title>
   <meta name='viewport' content='width=device-width,initial-scale=1'>
   <link href='assets/bass.css' type='text/css' rel='stylesheet' />
   <link href='assets/style.css' type='text/css' rel='stylesheet' />
   <link href='assets/github.css' type='text/css' rel='stylesheet' />
+  <link href='assets/split.css' type='text/css' rel='stylesheet' />
 </head>
-<body class='documentation'>
-  <div class='max-width-4 mx-auto'>
-    <div class='clearfix md-mxn2'>
-      <div class='fixed xs-hide fix-3 overflow-auto max-height-100'>
+<body class='documentation m0'>
+    <div class='flex'>
+      <div id='split-left' class='overflow-auto fs0 height-viewport-100'>
         <div class='py1 px2'>
           <h3 class='mb0 no-anchor'>serial-requests</h3>
-          <div class='mb1'><code>0.1.6</code></div>
+          <div class='mb1'><code>0.2.0</code></div>
           <input
             placeholder='Filter'
             id='filter-input'
@@ -22,69 +22,6 @@
             type='text' />
           <div id='toc'>
             <ul class='list-reset h5 py1-ul'>
-              
-                
-                <li><a
-                  href='#devicemanager'
-                  class=" toggle-sibling">
-                  DeviceManager
-                  <span class='icon'>▸</span>
-                </a>
-                
-                <div class='toggle-target display-none'>
-                  
-                  
-                    <ul class='list-reset py1-ul pl1'>
-                      <li class='h5'><span>Instance members</span></li>
-                      
-                      <li><a
-                        href='#DeviceManager#refresh'
-                        class='regular pre-open'>
-                        #refresh
-                      </a></li>
-                      
-                      <li><a
-                        href='#DeviceManager#addRequest'
-                        class='regular pre-open'>
-                        #addRequest
-                      </a></li>
-                      
-                      <li><a
-                        href='#DeviceManager#getDeviceIds'
-                        class='regular pre-open'>
-                        #getDeviceIds
-                      </a></li>
-                      
-                    </ul>
-                  
-                  
-                  
-                    <ul class='list-reset py1-ul pl1'>
-                      <li class='h5'>Events</li>
-                      
-                        <li><a
-                          href='#DeviceManager.event:DeviceManager#new'
-                          class='regular pre-open'>
-                          ⓔ DeviceManager#new
-                        </a></li>
-                      
-                        <li><a
-                          href='#DeviceManager.event:DeviceManager#connect'
-                          class='regular pre-open'>
-                          ⓔ DeviceManager#connect
-                        </a></li>
-                      
-                        <li><a
-                          href='#DeviceManager.event:DeviceManager#disconnect'
-                          class='regular pre-open'>
-                          ⓔ DeviceManager#disconnect
-                        </a></li>
-                      
-                    </ul>
-                  
-                </div>
-                
-                </li>
               
                 
                 <li><a
@@ -101,7 +38,7 @@
                       <li class='h5'><span>Instance members</span></li>
                       
                       <li><a
-                        href='#PortManager#addRequest'
+                        href='#portmanageraddrequest'
                         class='regular pre-open'>
                         #addRequest
                       </a></li>
@@ -110,46 +47,45 @@
                   
                   
                   
+                </div>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#devicemanager'
+                  class=" toggle-sibling">
+                  DeviceManager
+                  <span class='icon'>▸</span>
+                </a>
+                
+                <div class='toggle-target display-none'>
+                  
+                  
                     <ul class='list-reset py1-ul pl1'>
-                      <li class='h5'>Events</li>
+                      <li class='h5'><span>Instance members</span></li>
                       
-                        <li><a
-                          href='#PortManager.event:PortManager#open'
-                          class='regular pre-open'>
-                          ⓔ PortManager#open
-                        </a></li>
+                      <li><a
+                        href='#devicemanageraddrequest'
+                        class='regular pre-open'>
+                        #addRequest
+                      </a></li>
                       
-                        <li><a
-                          href='#PortManager.event:PortManager#error'
-                          class='regular pre-open'>
-                          ⓔ PortManager#error
-                        </a></li>
+                      <li><a
+                        href='#devicemanagergetdeviceids'
+                        class='regular pre-open'>
+                        #getDeviceIds
+                      </a></li>
                       
-                        <li><a
-                          href='#PortManager.event:PortManager#ready'
-                          class='regular pre-open'>
-                          ⓔ PortManager#ready
-                        </a></li>
-                      
-                        <li><a
-                          href='#PortManager.event:PortManager#disconnect'
-                          class='regular pre-open'>
-                          ⓔ PortManager#disconnect
-                        </a></li>
-                      
-                        <li><a
-                          href='#PortManager.event:PortManager#idchange'
-                          class='regular pre-open'>
-                          ⓔ PortManager#idchange
-                        </a></li>
-                      
-                        <li><a
-                          href='#PortManager.event:PortManager#reinitialize'
-                          class='regular pre-open'>
-                          ⓔ PortManager#reinitialize
-                        </a></li>
+                      <li><a
+                        href='#devicemanagerrefresh'
+                        class='regular pre-open'>
+                        #refresh
+                      </a></li>
                       
                     </ul>
+                  
+                  
                   
                 </div>
                 
@@ -162,601 +98,7 @@
           </div>
         </div>
       </div>
-      <div class='fix-margin-3'>
-        
-          
-            <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-  <div class='clearfix'>
-    
-    <h3 class='fl m0' id='devicemanager'>
-      DeviceManager
-    </h3>
-    
-    
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/cheminfo/serial-requests/blob/a01258f55e7035ea197f2b8efd672043ac56c2d2/src/DeviceManager.js#L23-L179'>
-      <span>src/DeviceManager.js</span>
-      </a>
-    
-  </div>
-  
-
-  
-
-  <div class='pre p1 fill-light mt0'>new DeviceManager(options: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</div>
-  
-  
-    <p>
-      Extends
-      
-        EventEmitter
-      
-    </p>
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>options</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
-	    
-          </div>
-          
-          <table class='mt1 mb2 fixed-table h5 col-12'>
-            <colgroup>
-              <col width='30%' />
-              <col width='70%' />
-            </colgroup>
-            <thead>
-              <tr class='bold fill-light'>
-                <th>Name</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody class='mt1'>
-              
-                <tr>
-                  <td class='break-word'><span class='code bold'>options.optionCreator</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">function</a>?</code>
-                  </td>
-                  <td class='break-word'><span>A function that will be called on each new discovered serial port. The
-function will receive an object describing the port. An example can be found in the
-</span></td>
-                </tr>
-              
-            </tbody>
-          </table>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Instance Members</div>
-    <div class="clearfix">
-  
-    <div class='border-bottom' id='DeviceManager#refresh'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>refresh()</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-  <div class='clearfix'>
-    
-    
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/cheminfo/serial-requests/blob/a01258f55e7035ea197f2b8efd672043ac56c2d2/src/DeviceManager.js#L85-L91'>
-      <span>src/DeviceManager.js</span>
-      </a>
-    
-  </div>
-  
-
-  <p>Will refresh the list of ports. For each new port, will attempt to initialize it  on weather the optionCreator
-option returns a truthy value. See PortManager</p>
-
-
-  <div class='pre p1 fill-light mt0'>refresh(): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></code>:
-        A promise that resolves after the list of available ports has been listed
-
-      
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='DeviceManager#addRequest'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>addRequest(id, cmd, options)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-  <div class='clearfix'>
-    
-    
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/cheminfo/serial-requests/blob/a01258f55e7035ea197f2b8efd672043ac56c2d2/src/DeviceManager.js#L65-L67'>
-      <span>src/DeviceManager.js</span>
-      </a>
-    
-  </div>
-  
-
-  <p>Send a request to a device and get the response. If the device is not found it will attempt a refresh.</p>
-
-
-  <div class='pre p1 fill-light mt0'>addRequest(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, cmd: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, options: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>id</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    id of the device to send a request to
-
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>cmd</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    command to send to the device
-
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>options</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
-	    request options
-
-          </div>
-          
-          <table class='mt1 mb2 fixed-table h5 col-12'>
-            <colgroup>
-              <col width='30%' />
-              <col width='70%' />
-            </colgroup>
-            <thead>
-              <tr class='bold fill-light'>
-                <th>Name</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody class='mt1'>
-              
-                <tr>
-                  <td class='break-word'><span class='code bold'>options.timeout</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
-                  
-                    (default <code>200</code>)
-                  </td>
-                  <td class='break-word'><span>Timeout in ms. This is used to know when a request is considered finished.
-A request is considered finished when the serial port stopped receiving data for more than the given timeout.
-</span></td>
-                </tr>
-              
-            </tbody>
-          </table>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></code>:
-        The response to the request
-
-      
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='DeviceManager#getDeviceIds'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getDeviceIds()</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-  <div class='clearfix'>
-    
-    
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/cheminfo/serial-requests/blob/a01258f55e7035ea197f2b8efd672043ac56c2d2/src/DeviceManager.js#L73-L76'>
-      <span>src/DeviceManager.js</span>
-      </a>
-    
-  </div>
-  
-
-  <p>Get the current list of all connected devices</p>
-
-
-  <div class='pre p1 fill-light mt0'>getDeviceIds(): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></code>:
-        An array of ids
-
-      
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-</div>
-
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Events</div>
-    <div class="clearfix">
-  
-    <div class='border-bottom' id='DeviceManager.event:DeviceManager#new'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>DeviceManager#new</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-  <div class='clearfix'>
-    
-    
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/cheminfo/serial-requests/blob/a01258f55e7035ea197f2b8efd672043ac56c2d2/src/DeviceManager.js#L49-L54'>
-      <span>src/DeviceManager.js</span>
-      </a>
-    
-  </div>
-  
-
-  <p>new event</p>
-
-
-  <div class='pre p1 fill-light mt0'>DeviceManager#new</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>options</span> <code class='quiet'>(any)</code>
-	    
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Properties</div>
-    <div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>id</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-          : Device id
-
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='DeviceManager.event:DeviceManager#connect'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>DeviceManager#connect</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-  <div class='clearfix'>
-    
-    
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/cheminfo/serial-requests/blob/a01258f55e7035ea197f2b8efd672043ac56c2d2/src/DeviceManager.js#L49-L54'>
-      <span>src/DeviceManager.js</span>
-      </a>
-    
-  </div>
-  
-
-  <p>connect event</p>
-
-
-  <div class='pre p1 fill-light mt0'>DeviceManager#connect</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>options</span> <code class='quiet'>(any)</code>
-	    
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Properties</div>
-    <div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>id</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-          :  Device id
-
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='DeviceManager.event:DeviceManager#disconnect'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>DeviceManager#disconnect</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-  <div class='clearfix'>
-    
-    
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/cheminfo/serial-requests/blob/a01258f55e7035ea197f2b8efd672043ac56c2d2/src/DeviceManager.js#L49-L54'>
-      <span>src/DeviceManager.js</span>
-      </a>
-    
-  </div>
-  
-
-  <p>disconnect event</p>
-
-
-  <div class='pre p1 fill-light mt0'>DeviceManager#disconnect</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>options</span> <code class='quiet'>(any)</code>
-	    
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Properties</div>
-    <div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>id</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-          :  Device id
-
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-</div>
-
-  
-</section>
-
-          
+      <div id='split-right' class='relative overflow-auto height-viewport-100'>
         
           
             <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -769,7 +111,7 @@ A request is considered finished when the serial port stopped receiving data for
     </h3>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/cheminfo/serial-requests/blob/a01258f55e7035ea197f2b8efd672043ac56c2d2/src/PortManager.js#L26-L375'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/cheminfo/serial-requests/blob/305eb9501aabbf321cc283624ac985b90b65fe7c/src/PortManager.js#L26-L375'>
       <span>src/PortManager.js</span>
       </a>
     
@@ -778,7 +120,7 @@ A request is considered finished when the serial port stopped receiving data for
 
   
 
-  <div class='pre p1 fill-light mt0'>new PortManager(port: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, options: (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">function</a>))</div>
+  <div class='pre p1 fill-light mt0'>new PortManager(port: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, options: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>))</div>
   
   
     <p>
@@ -802,7 +144,7 @@ A request is considered finished when the serial port stopped receiving data for
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>port</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+            <span class='code bold'>port</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
 	    The serial port to connect to
 
           </div>
@@ -811,7 +153,7 @@ A request is considered finished when the serial port stopped receiving data for
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>options</span> <code class='quiet'>((<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">function</a>))</code>
+            <span class='code bold'>options</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>))</code>
 	    options
 
           </div>
@@ -835,7 +177,7 @@ A request is considered finished when the serial port stopped receiving data for
     <div class='py1 quiet mt1 prose-big'>Instance Members</div>
     <div class="clearfix">
   
-    <div class='border-bottom' id='PortManager#addRequest'>
+    <div class='border-bottom' id='portmanageraddrequest'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -849,7 +191,7 @@ A request is considered finished when the serial port stopped receiving data for
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/cheminfo/serial-requests/blob/a01258f55e7035ea197f2b8efd672043ac56c2d2/src/PortManager.js#L102-L114'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/cheminfo/serial-requests/blob/305eb9501aabbf321cc283624ac985b90b65fe7c/src/PortManager.js#L102-L114'>
       <span>src/PortManager.js</span>
       </a>
     
@@ -859,7 +201,7 @@ A request is considered finished when the serial port stopped receiving data for
   <p>Send a request to the port</p>
 
 
-  <div class='pre p1 fill-light mt0'>addRequest(cmd: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, options: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
+  <div class='pre p1 fill-light mt0'>addRequest(cmd: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, options: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
   
   
 
@@ -876,7 +218,7 @@ A request is considered finished when the serial port stopped receiving data for
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>cmd</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+            <span class='code bold'>cmd</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
 	    The data to send to the serial port
 
           </div>
@@ -885,7 +227,7 @@ A request is considered finished when the serial port stopped receiving data for
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>options</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>
+            <span class='code bold'>options</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>
             = <code>{}</code>)</code>
 	    Request options
 
@@ -905,14 +247,16 @@ A request is considered finished when the serial port stopped receiving data for
             <tbody class='mt1'>
               
                 <tr>
-                  <td class='break-word'><span class='code bold'>options.timeout</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></code>
-                  
-                    (default <code>200</code>)
-                  </td>
-                  <td class='break-word'><span>Timeout in ms. This is used to know when a request is considered finished.
+  <td class='break-word'><span class='code bold'>options.timeout</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></code>
+  
+    (default <code>200</code>)
+  </td>
+  <td class='break-word'><span>Timeout in ms. This is used to know when a request is considered finished.
 A request is considered finished when the serial port stopped receiving data for more than the given timeout.
 </span></td>
-                </tr>
+</tr>
+
+
               
             </tbody>
           </table>
@@ -927,7 +271,7 @@ A request is considered finished when the serial port stopped receiving data for
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></code>:
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></code>:
         A promise resolving with response to the request
 
       
@@ -953,14 +297,108 @@ A request is considered finished when the serial port stopped receiving data for
   
 
   
-    <div class='py1 quiet mt1 prose-big'>Events</div>
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='devicemanager'>
+      DeviceManager
+    </h3>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/cheminfo/serial-requests/blob/305eb9501aabbf321cc283624ac985b90b65fe7c/src/DeviceManager.js#L23-L179'>
+      <span>src/DeviceManager.js</span>
+      </a>
+    
+  </div>
+  
+
+  
+
+  <div class='pre p1 fill-light mt0'>new DeviceManager(options: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</div>
+  
+  
+    <p>
+      Extends
+      
+        EventEmitter
+      
+    </p>
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>options</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5 col-12'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>options.optionCreator</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>?</code>
+  </td>
+  <td class='break-word'><span>A function that will be called on each new discovered serial port. The
+function will receive an object describing the port. An example can be found in the
+</span></td>
+</tr>
+
+
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Instance Members</div>
     <div class="clearfix">
   
-    <div class='border-bottom' id='PortManager.event:PortManager#open'>
+    <div class='border-bottom' id='devicemanageraddrequest'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>PortManager#open</span>
+            <span class='code strong strong truncate'>addRequest(id, cmd, options)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -970,18 +408,17 @@ A request is considered finished when the serial port stopped receiving data for
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/cheminfo/serial-requests/blob/a01258f55e7035ea197f2b8efd672043ac56c2d2/src/PortManager.js#L78-L92'>
-      <span>src/PortManager.js</span>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/cheminfo/serial-requests/blob/305eb9501aabbf321cc283624ac985b90b65fe7c/src/DeviceManager.js#L65-L67'>
+      <span>src/DeviceManager.js</span>
       </a>
     
   </div>
   
 
-  <p>open event
-The connection to the port was successfully opened. Fires each time the port is reconnected</p>
+  <p>Send a request to a device and get the response. If the device is not found it will attempt a refresh.</p>
 
 
-  <div class='pre p1 fill-light mt0'>PortManager#open</div>
+  <div class='pre p1 fill-light mt0'>addRequest(id: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, cmd: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, options: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
   
   
 
@@ -998,17 +435,56 @@ The connection to the port was successfully opened. Fires each time the port is 
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>port</span> <code class='quiet'>(any)</code>
-	    
+            <span class='code bold'>id</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    id of the device to send a request to
+
           </div>
           
         </div>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>options</span> <code class='quiet'>(any)</code>
-	    
+            <span class='code bold'>cmd</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    command to send to the device
+
           </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>options</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    request options
+
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5 col-12'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>options.timeout</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
+  
+    (default <code>200</code>)
+  </td>
+  <td class='break-word'><span>Timeout in ms. This is used to know when a request is considered finished.
+A request is considered finished when the serial port stopped receiving data for more than the given timeout.
+</span></td>
+</tr>
+
+
+              
+            </tbody>
+          </table>
           
         </div>
       
@@ -1017,6 +493,14 @@ The connection to the port was successfully opened. Fires each time the port is 
 
   
 
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></code>:
+        The response to the request
+
+      
+    
   
 
   
@@ -1033,11 +517,11 @@ The connection to the port was successfully opened. Fires each time the port is 
       </div>
     </div>
   
-    <div class='border-bottom' id='PortManager.event:PortManager#error'>
+    <div class='border-bottom' id='devicemanagergetdeviceids'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>PortManager#error</span>
+            <span class='code strong strong truncate'>getDeviceIds()</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -1047,53 +531,39 @@ The connection to the port was successfully opened. Fires each time the port is 
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/cheminfo/serial-requests/blob/a01258f55e7035ea197f2b8efd672043ac56c2d2/src/PortManager.js#L78-L92'>
-      <span>src/PortManager.js</span>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/cheminfo/serial-requests/blob/305eb9501aabbf321cc283624ac985b90b65fe7c/src/DeviceManager.js#L73-L76'>
+      <span>src/DeviceManager.js</span>
       </a>
     
   </div>
   
 
-  <p>error event
-The attempt to connect to the port failed. Fires each time a connection attemps fails.</p>
+  <p>Get the current list of all connected devices</p>
 
 
-  <div class='pre p1 fill-light mt0'>PortManager#error</div>
-  
-  
-
-  
-  
-  
-  
+  <div class='pre p1 fill-light mt0'>getDeviceIds(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
   
   
 
   
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></code>:
+        An array of ids
+
       
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>port</span> <code class='quiet'>(any)</code>
-	    
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>options</span> <code class='quiet'>(any)</code>
-	    
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
+    
   
 
   
@@ -1110,11 +580,11 @@ The attempt to connect to the port failed. Fires each time a connection attemps 
       </div>
     </div>
   
-    <div class='border-bottom' id='PortManager.event:PortManager#ready'>
+    <div class='border-bottom' id='devicemanagerrefresh'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>PortManager#ready</span>
+            <span class='code strong strong truncate'>refresh()</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -1124,63 +594,26 @@ The attempt to connect to the port failed. Fires each time a connection attemps 
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/cheminfo/serial-requests/blob/a01258f55e7035ea197f2b8efd672043ac56c2d2/src/PortManager.js#L78-L92'>
-      <span>src/PortManager.js</span>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/cheminfo/serial-requests/blob/305eb9501aabbf321cc283624ac985b90b65fe7c/src/DeviceManager.js#L85-L91'>
+      <span>src/DeviceManager.js</span>
       </a>
     
   </div>
   
 
-  <p>ready event
-The port is initialized, and knows the id of the id it is connected to</p>
+  <p>Will refresh the list of ports. For each new port, will attempt to initialize it  on weather the optionCreator
+option returns a truthy value. See PortManager</p>
 
 
-  <div class='pre p1 fill-light mt0'>PortManager#ready</div>
-  
-  
-
-  
-  
-  
-  
+  <div class='pre p1 fill-light mt0'>refresh(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></div>
   
   
 
   
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>port</span> <code class='quiet'>(any)</code>
-	    
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>options</span> <code class='quiet'>(any)</code>
-	    
-          </div>
-          
-        </div>
-      
-    </div>
   
-
   
-    <div class='py1 quiet mt1 prose-big'>Properties</div>
-    <div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>id</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-          : The id of the ready device
-
-          
-        </div>
-      
-    </div>
+  
+  
   
 
   
@@ -1188,268 +621,13 @@ The port is initialized, and knows the id of the id it is connected to</p>
   
 
   
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='PortManager.event:PortManager#disconnect'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>PortManager#disconnect</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-  <div class='clearfix'>
     
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></code>:
+        A promise that resolves after the list of available ports has been listed
+
+      
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/cheminfo/serial-requests/blob/a01258f55e7035ea197f2b8efd672043ac56c2d2/src/PortManager.js#L78-L92'>
-      <span>src/PortManager.js</span>
-      </a>
-    
-  </div>
-  
-
-  <p>disconnect event
-The port has disconnected</p>
-
-
-  <div class='pre p1 fill-light mt0'>PortManager#disconnect</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>port</span> <code class='quiet'>(any)</code>
-	    
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>options</span> <code class='quiet'>(any)</code>
-	    
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Properties</div>
-    <div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>id</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-          : The id of the disconnected device
-
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='PortManager.event:PortManager#idchange'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>PortManager#idchange</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-  <div class='clearfix'>
-    
-    
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/cheminfo/serial-requests/blob/a01258f55e7035ea197f2b8efd672043ac56c2d2/src/PortManager.js#L78-L92'>
-      <span>src/PortManager.js</span>
-      </a>
-    
-  </div>
-  
-
-  <p>idchange event
-Upon reconnection, the id of the device connected to the port has changed</p>
-
-
-  <div class='pre p1 fill-light mt0'>PortManager#idchange</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>port</span> <code class='quiet'>(any)</code>
-	    
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>options</span> <code class='quiet'>(any)</code>
-	    
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Properties</div>
-    <div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>id</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-          :  The new device id
-
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='PortManager.event:PortManager#reinitialize'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>PortManager#reinitialize</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-  <div class='clearfix'>
-    
-    
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/cheminfo/serial-requests/blob/a01258f55e7035ea197f2b8efd672043ac56c2d2/src/PortManager.js#L78-L92'>
-      <span>src/PortManager.js</span>
-      </a>
-    
-  </div>
-  
-
-  <p>reinitialize event
-Upon reconnection, the id of the device connected to the port is still the same</p>
-
-
-  <div class='pre p1 fill-light mt0'>PortManager#reinitialize</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>port</span> <code class='quiet'>(any)</code>
-	    
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>options</span> <code class='quiet'>(any)</code>
-	    
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Properties</div>
-    <div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>id</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-          :  Device id
-
-          
-        </div>
-      
-    </div>
-  
-
   
 
   
@@ -1469,14 +647,16 @@ Upon reconnection, the id of the device connected to the port is still the same<
 </div>
 
   
+
+  
 </section>
 
           
         
       </div>
     </div>
-  </div>
   <script src='assets/anchor.js'></script>
+  <script src='assets/split.js'></script>
   <script src='assets/site.js'></script>
 </body>
 </html>
